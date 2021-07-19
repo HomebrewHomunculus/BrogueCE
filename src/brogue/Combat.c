@@ -571,8 +571,8 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
     char buf[DCOLS*3], monstName[DCOLS], theItemName[DCOLS];
 
     color *effectColors[NUMBER_WEAPON_RUNIC_KINDS] = {&white, &black,
-        &yellow, &pink, &green, &confusionGasColor, NULL, NULL, &darkRed, &rainbow};
-    //  W_SPEED, W_QUIETUS, W_PARALYSIS, W_MULTIPLICITY, W_SLOWING, W_CONFUSION, W_FORCE, W_SLAYING, W_MERCY, W_PLENTY
+        &yellow, &pink, &green, &confusionGasColor, NULL, NULL};
+    //  W_SPEED, W_QUIETUS, W_PARALYSIS, W_MULTIPLICITY, W_SLOWING, W_CONFUSION, W_FORCE, W_SLAYING
     short chance, i;
     fixpt enchant;
     enum weaponEnchants enchantType = theItem->enchant2;
@@ -739,7 +739,7 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
             case W_FORCE:
                 autoID = forceWeaponHit(defender, theItem);
                 break;
-            case W_MERCY:
+            /*case W_MERCY:
                 heal(defender, 50, false);
                 if (canSeeMonster(defender)) {
                     autoID = true;
@@ -753,7 +753,7 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
                         autoID = true;
                     }
                 }
-                break;
+                break;*/
             default:
                 break;
         }
@@ -923,7 +923,7 @@ void applyArmorRunicEffect(char returnString[DCOLS], creature *attacker, short *
                 runicDiscovered = true;
             }
             break;
-        case A_BURDEN:
+        /*case A_BURDEN:
             if (rand_percent(10)) {
                 rogue.armor->strengthRequired++;
                 sprintf(returnString, "your %s suddenly feels heavier!", armorName);
@@ -945,7 +945,7 @@ void applyArmorRunicEffect(char returnString[DCOLS], creature *attacker, short *
                 returnString[0] = '\0';
                 spawnDungeonFeature(player.xLoc, player.yLoc, &(dungeonFeatureCatalog[DF_ARMOR_IMMOLATION]), true, false);
                 runicDiscovered = true;
-            }
+            }*/
         default:
             break;
     }
@@ -1183,9 +1183,6 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
             }
             if (armorRunicString[0]) {
                 message(armorRunicString, false);
-                if (rogue.armor && (rogue.armor->flags & ITEM_RUNIC) && rogue.armor->enchant2 == A_BURDEN) {
-                    strengthCheck(rogue.armor);
-                }
             }
         }
 

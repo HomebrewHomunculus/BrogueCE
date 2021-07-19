@@ -33,11 +33,11 @@
 #define USE_UNICODE
 
 // Brogue version: what the user sees in the menu and title
-#define BROGUE_VERSION_STRING "CE 1.9.4" BROGUE_EXTRA_VERSION
+#define BROGUE_VERSION_STRING "Brogue Lite 1.9.3" BROGUE_EXTRA_VERSION
 
 // Recording version. Saved into recordings and save files made by this version.
 // Cannot be longer than 16 chars
-#define BROGUE_RECORDING_VERSION_STRING "CE 1.9.4"
+#define BROGUE_RECORDING_VERSION_STRING "BrogueLte 1.9.3"
 
 /* Patch pattern. A scanf format string which matches an unsigned short. If this
 matches against a recording version string, it defines a "patch version." During
@@ -49,10 +49,10 @@ which is equal or less than the patch version of the current game
 (rogue.patchLevel is set to the recording's); or b) it doesn't match the version
 strings, but they are equal (rogue.patchLevel is set to 0).
 */
-#define BROGUE_PATCH_VERSION_PATTERN "CE 1.9.%hu"
+#define BROGUE_PATCH_VERSION_PATTERN "Brogue Lite 1.9.%hu"
 
 // Dungeon version. Used in seed catalog output.
-#define BROGUE_DUNGEON_VERSION_STRING "CE 1.9"
+#define BROGUE_DUNGEON_VERSION_STRING "Brogue Lite 1.9"
 
 #define DEBUG                           if (rogue.wizard)
 #define MONSTERS_ENABLED                (!rogue.wizard || 1) // Quest room monsters can be generated regardless.
@@ -734,7 +734,6 @@ enum potionKind {
     POTION_INVISIBILITY,
     POTION_POISON,
     POTION_PARALYSIS,
-    POTION_HALLUCINATION,
     POTION_CONFUSION,
     POTION_INCINERATION,
     POTION_DARKNESS,
@@ -776,9 +775,6 @@ enum weaponEnchants {
     W_CONFUSION,
     W_FORCE,
     W_SLAYING,
-    W_MERCY,
-    NUMBER_GOOD_WEAPON_ENCHANT_KINDS = W_MERCY,
-    W_PLENTY,
     NUMBER_WEAPON_RUNIC_KINDS
 };
 
@@ -801,11 +797,7 @@ enum armorEnchants {
     A_REFLECTION,
     A_RESPIRATION,
     A_DAMPENING,
-    A_BURDEN,
-    NUMBER_GOOD_ARMOR_ENCHANT_KINDS = A_BURDEN,
-    A_VULNERABILITY,
-    A_IMMOLATION,
-    NUMBER_ARMOR_ENCHANT_KINDS,
+    NUMBER_ARMOR_ENCHANT_KINDS
 };
 
 enum wandKind {
@@ -902,9 +894,8 @@ enum charmKind {
 
 enum scrollKind {
     SCROLL_ENCHANTING,
-    SCROLL_IDENTIFY,
     SCROLL_TELEPORT,
-    SCROLL_REMOVE_CURSE,
+    //SCROLL_REMOVE_CURSE,
     SCROLL_RECHARGING,
     SCROLL_PROTECT_ARMOR,
     SCROLL_PROTECT_WEAPON,
@@ -913,8 +904,6 @@ enum scrollKind {
     SCROLL_NEGATION,
     SCROLL_SHATTERING,
     SCROLL_DISCORD,
-    SCROLL_AGGRAVATE_MONSTER,
-    SCROLL_SUMMON_MONSTER,
     NUMBER_SCROLL_KINDS
 };
 
@@ -1306,6 +1295,8 @@ enum itemFlags {
 
     ITEM_KIND_AUTO_ID       = Fl(22),   // the item type will become known when the item is picked up.
     ITEM_PLAYER_AVOIDS      = Fl(23),   // explore and travel will try to avoid picking the item up
+
+    ITEM_IS_FUNGIBLE_KEY    = Fl(24),   // Brogue Lite: only fungible keys should be consumed by iron doors
 };
 
 #define KEY_ID_MAXIMUM  20
@@ -1871,6 +1862,7 @@ enum terrainMechanicalFlagCatalog {
     TM_INTERRUPT_EXPLORATION_WHEN_SEEN = Fl(22),    // will generate a message when discovered during exploration to interrupt exploration
     TM_INVERT_WHEN_HIGHLIGHTED      = Fl(23),       // will flip fore and back colors when highlighted with pathing
     TM_SWAP_ENCHANTS_ACTIVATION     = Fl(24),       // in machine, swap item enchantments when two suitable items are on this terrain, and activate the machine when that happens
+    TM_ACCEPTS_FUNGIBLE_KEY         = Fl(25),       // Brogue Lite: any key can be used and consumed here (for iron doors)
 };
 
 enum statusEffects {
@@ -2650,6 +2642,7 @@ extern "C" {
     boolean search(short searchStrength);
     boolean proposeOrConfirmLocation(short x, short y, char *failureMessage);
     boolean useStairs(short stairDirection);
+    void printLevelFeeling();
     short passableArcCount(short x, short y);
     void analyzeMap(boolean calculateChokeMap);
     boolean buildAMachine(enum machineTypes bp,
