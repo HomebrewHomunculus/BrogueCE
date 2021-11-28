@@ -1209,10 +1209,11 @@ void victory(boolean superVictory) {
         if (theItem->category == AMULET && superVictory) {
             plotCharToBuffer(G_AMULET, mapToWindowX(2), min(ROWS-1, i + 1), &yellow, &black, dbuf);
             printString("The Birthright of Yendor", mapToWindowX(4), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
-            // Note: the result of itemValue is doubled here for the amulet!
-            sprintf(buf, "%li", max(0, itemValue(theItem) * 2));
+
+            // Brogue Lite: don't double the value of the amulet (instead, set the full intended value in itemValue)
+            sprintf(buf, "%li", max(0, itemValue(theItem)));
             printString(buf, mapToWindowX(60), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
-            totalValue += max(0, itemValue(theItem) * 2);
+            totalValue += max(0, itemValue(theItem));
             i++;
         } else {
             identify(theItem);
@@ -1222,7 +1223,6 @@ void victory(boolean superVictory) {
             plotCharToBuffer(theItem->displayChar, mapToWindowX(2), min(ROWS-1, i + 1), &yellow, &black, dbuf);
             printString(buf, mapToWindowX(4), min(ROWS-1, i + 1), &white, &black, dbuf);
 
-            // Note: the result of itemValue is NOT doubled here. Includes lumenstones as well, I think?
             if (itemValue(theItem) > 0) {
                 sprintf(buf, "%li", max(0, itemValue(theItem)));
                 printString(buf, mapToWindowX(60), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);

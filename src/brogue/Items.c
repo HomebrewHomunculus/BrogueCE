@@ -7932,8 +7932,6 @@ void shuffleFlavors() {
 /*
   Score values of items (the amulet and lumenstones).
   Other items are worth no points.
-
-  Note: the value of the amulet is doubled outside of this function.
 */
 unsigned long itemValue(item *theItem) {
     switch (theItem->category) {
