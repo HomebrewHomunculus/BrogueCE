@@ -170,7 +170,7 @@ typedef struct pos {
 #define DEEPEST_LEVEL           40          // how deep the universe goes
 
 // Brogue Lite: scoring
-#define SCORE_PER_DEPTH         1     // how many points we give on each descent
+#define SCORE_PER_DEPTH         10     // how many points we give on each descent
 #define GOLD_PER_PILE           1     // how many gold pieces we place in each pile (when using fixed pile sizes)
 
 

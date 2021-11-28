@@ -753,7 +753,7 @@ void startLevel(short oldLevelNumber, short stairDirection) {
 
     if (!levels[rogue.depthLevel-1].visited) {
         levels[rogue.depthLevel-1].visited = true;
-        // Brogue Lite: add 1 score (= gold) for each level visited (but not at game start)
+        // Brogue Lite: add points (= 'gold') for each level visited (but not at game start)
         if (rogue.depthLevel > 1) {
         rogue.gold += SCORE_PER_DEPTH;
         }
