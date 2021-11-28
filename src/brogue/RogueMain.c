@@ -1199,14 +1199,17 @@ void victory(boolean superVictory) {
     // we also score for depth by adding gold when descending (defined in SCORE_PER_DEPTH)
     totalValue += rogue.gold;
 
-    // Score for lumenstones & amulet (other items' score value is checked but always 0)
+    // Score for lumenstones & amulet
+    // (other items' score value is checked as well, but itemValue always returns 0 for them)
     for (i = 4, theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
         if (theItem->category & GEM) {
             gemCount += theItem->quantity;
         }
+
         if (theItem->category == AMULET && superVictory) {
             plotCharToBuffer(G_AMULET, mapToWindowX(2), min(ROWS-1, i + 1), &yellow, &black, dbuf);
             printString("The Birthright of Yendor", mapToWindowX(4), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
+            // Note: the result of itemValue is doubled here for the amulet!
             sprintf(buf, "%li", max(0, itemValue(theItem) * 2));
             printString(buf, mapToWindowX(60), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
             totalValue += max(0, itemValue(theItem) * 2);
@@ -1219,6 +1222,7 @@ void victory(boolean superVictory) {
             plotCharToBuffer(theItem->displayChar, mapToWindowX(2), min(ROWS-1, i + 1), &yellow, &black, dbuf);
             printString(buf, mapToWindowX(4), min(ROWS-1, i + 1), &white, &black, dbuf);
 
+            // Note: the result of itemValue is NOT doubled here. Includes lumenstones as well, I think?
             if (itemValue(theItem) > 0) {
                 sprintf(buf, "%li", max(0, itemValue(theItem)));
                 printString(buf, mapToWindowX(60), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
