@@ -7936,10 +7936,10 @@ void shuffleFlavors() {
 unsigned long itemValue(item *theItem) {
     switch (theItem->category) {
         case AMULET:
-            return 500;
+            return SCORE_FOR_AMULET;
             break;
         case GEM:
-            return 50 * theItem->quantity;
+            return SCORE_PER_LUMEN * theItem->quantity;
             break;
         default:
             return 0;

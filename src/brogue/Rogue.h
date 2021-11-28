@@ -170,8 +170,11 @@ typedef struct pos {
 #define DEEPEST_LEVEL           40          // how deep the universe goes
 
 // Brogue Lite: scoring
-#define SCORE_PER_DEPTH         10     // how many points we give on each descent
-#define GOLD_PER_PILE           1     // how many gold pieces we place in each pile (when using fixed pile sizes)
+#define SCORE_PER_DEPTH         10      // how many points we give on each descent
+#define GOLD_PER_PILE           1       // how many gold pieces we place in each pile (when using fixed pile sizes)
+#define SCORE_FOR_AMULET        500     // how many points for the Amulet of Yendor
+#define SCORE_PER_LUMEN         50      // how many points per lumenstone
+
 
 
 #define MACHINES_FACTOR         FP_FACTOR   // use this to adjust machine frequency
