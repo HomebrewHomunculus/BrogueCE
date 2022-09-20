@@ -753,6 +753,10 @@ void startLevel(short oldLevelNumber, short stairDirection) {
 
     if (!levels[rogue.depthLevel-1].visited) {
         levels[rogue.depthLevel-1].visited = true;
+        // Brogue Lite: add points (= 'gold') for each level visited (but not at game start)
+        if (rogue.depthLevel > 1) {
+        rogue.gold += SCORE_PER_DEPTH;
+        }
         if (rogue.depthLevel == AMULET_LEVEL) {
             messageWithColor("An alien energy permeates the area. The Amulet of Yendor must be nearby!", &itemMessageColor, 0);
         } else if (rogue.depthLevel == DEEPEST_LEVEL) {
@@ -1077,6 +1081,8 @@ void gameOver(char *killedBy, boolean useCustomPhrasing) {
         sprintf(buf, "Killed by a%s %s on depth %i", (isVowelish(killedBy) ? "n" : ""), killedBy,
                 rogue.depthLevel);
     }
+    // Brogue Lite: gold grants 1 score per piece but there is only 1 piece/score in each gold pile (defined in GOLD_PER_PILE)
+    // we also score for depth by adding gold when descending (defined in SCORE_PER_DEPTH)
     theEntry.score = rogue.gold;
     if (rogue.easyMode) {
         // Brogue Lite: easy mode (developer mode) stores high score as 0
@@ -1186,21 +1192,28 @@ void victory(boolean superVictory) {
     printString(displayedMessage[0], mapToWindowX(0), mapToWindowY(-1), &white, &black, dbuf);
 
     plotCharToBuffer(G_GOLD, mapToWindowX(2), mapToWindowY(1), &yellow, &black, dbuf);
-    printString("Gold", mapToWindowX(4), mapToWindowY(1), &white, &black, dbuf);
+    printString("Score", mapToWindowX(4), mapToWindowY(1), &white, &black, dbuf);
     sprintf(buf, "%li", rogue.gold);
     printString(buf, mapToWindowX(60), mapToWindowY(1), &itemMessageColor, &black, dbuf);
+    // Brogue Lite: gold grants 1 score per piece but there is only 1 piece/score in each gold pile (defined in GOLD_PER_PILE)
+    // we also score for depth by adding gold when descending (defined in SCORE_PER_DEPTH)
     totalValue += rogue.gold;
 
+    // Score for lumenstones & amulet
+    // (other items' score value is checked as well, but itemValue always returns 0 for them)
     for (i = 4, theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
         if (theItem->category & GEM) {
             gemCount += theItem->quantity;
         }
+
         if (theItem->category == AMULET && superVictory) {
             plotCharToBuffer(G_AMULET, mapToWindowX(2), min(ROWS-1, i + 1), &yellow, &black, dbuf);
             printString("The Birthright of Yendor", mapToWindowX(4), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
-            sprintf(buf, "%li", max(0, itemValue(theItem) * 2));
+
+            // Brogue Lite: don't double the value of the amulet (instead, set the full intended value in itemValue)
+            sprintf(buf, "%li", max(0, itemValue(theItem)));
             printString(buf, mapToWindowX(60), min(ROWS-1, i + 1), &itemMessageColor, &black, dbuf);
-            totalValue += max(0, itemValue(theItem) * 2);
+            totalValue += max(0, itemValue(theItem));
             i++;
         } else {
             identify(theItem);

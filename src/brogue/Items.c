@@ -360,7 +360,9 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
         case GOLD:
             theEntry = NULL;
             theItem->displayChar = G_GOLD;
-            theItem->quantity = rand_range(50 + rogue.depthLevel * 10, 100 + rogue.depthLevel * 15);
+            // Brogue Lite: no gold amounts fuzzing. All gold "piles" have 1 gold.
+            theItem->quantity = GOLD_PER_PILE;
+            //theItem->quantity = rand_range(50 + rogue.depthLevel * 10, 100 + rogue.depthLevel * 15);
             break;
         case AMULET:
             theEntry = NULL;
@@ -543,12 +545,36 @@ void populateItems(short upstairsX, short upstairsY) {
     unsigned long totalHeat;
     short theCategory, theKind, randomDepthOffset = 0;
 
+// Gold distribution:
+/*
+  The game uses an array (POW_GOLD), with values derived from the function X=Y^3.05,
+  to determine a baseline for the gold "target" amount to spawn.
+  (However, note that the array is indexed from 0, while depth starts at 1,
+    so the first value in the array, 0, is not used.)
+
+  To this is added 320*d to give the lower bound, and 420*d to give the upper bound.
+  (Mean multiplier: 370)
+  In other words, the "mean" target amount of gold to grant by a given a level
+  (cumulative of earlier levels) is given by the formula:
+      G_target(mean) = (d^3.05) + (370*d)
+      G_target(lower) = (d^3.05) + (320*d)
+      G_target(upper) = (d^3.05) + (370*d)
+
+  These bounds do not mean that the amount of gold spawned is _guaranted_ to stay
+  within this range. Rather, the game tries to guide the total towards this range,
+  by modifying the number of gold piles in a level by +2 or -2 if the total
+  is lagging behind or outgrowing this range, respectively.
+
+*/
     const int POW_GOLD[] = {
         // b^3.05, with b from 0 to 25:
         0, 1, 8, 28, 68, 135, 236, 378, 568, 813, 1122, 1500, 1956, 2497, 3131,
         3864, 4705, 5660, 6738, 7946, 9292, 10783, 12427, 14232, 16204, 18353};
 #define aggregateGoldLowerBound(d)  (POW_GOLD[d] + 320 * (d))
 #define aggregateGoldUpperBound(d)  (POW_GOLD[d] + 420 * (d))
+
+// Food distribution
+
     const fixpt POW_FOOD[] = {
         // b^1.35 fixed point, with b from 1 to 50 (for future-proofing):
         65536, 167059, 288797, 425854, 575558, 736180, 906488, 1085553, 1272645,
@@ -836,9 +862,15 @@ void pickUpItemAt(short x, short y) {
         }
 
         if (theItem->category & GOLD) {
+            // Brogue Lite: 1 gold per pile (defined in GOLD_PER_PILE)
             rogue.gold += theItem->quantity;
             rogue.featRecord[FEAT_TONE] = false;
             sprintf(buf, "you found %i pieces of gold.", theItem->quantity);
+            if (theItem->quantity > 1) {
+              sprintf(buf, "you found %i pieces of gold.", theItem->quantity);
+            } else {
+              sprintf(buf, "you found a piece of gold.", theItem->quantity);
+            }
             messageWithColor(buf, &itemMessageColor, 0);
             deleteItem(theItem);
             removeItemFrom(x, y); // triggers tiles with T_PROMOTES_ON_ITEM_PICKUP
@@ -7897,13 +7929,17 @@ void shuffleFlavors() {
     }
 }
 
+/*
+  Score values of items (the amulet and lumenstones).
+  Other items are worth no points.
+*/
 unsigned long itemValue(item *theItem) {
     switch (theItem->category) {
         case AMULET:
-            return 35000;
+            return SCORE_FOR_AMULET;
             break;
         case GEM:
-            return 5000 * theItem->quantity;
+            return SCORE_PER_LUMEN * theItem->quantity;
             break;
         default:
             return 0;
