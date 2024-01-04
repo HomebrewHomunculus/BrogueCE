@@ -6,7 +6,7 @@ bin/*.png
 vars
 
 # Release dirs and archives
-BrogueCE-*
+BrogueLite-*
 *.zip
 
 .vscode
