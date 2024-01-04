@@ -92,9 +92,35 @@ const bolt boltCatalog_Brogue[] = {
 // Number of lumenstones on each level past amulet
 const short lumenstoneDistribution_Brogue[DEEPEST_LEVEL - AMULET_LEVEL] = {3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1};
 
+// Brogue Lite: adjusted item frequencies
+//
+// We've removed scroll of identify, which is 30/158 of scrolls = 19%.
+// So should we reduce the relative frequency of scrolls by 19%?
+// From 42 to 34.
+// Also, aggravate monsters = 15/158 and summon monsters = 10/158.
+// Removing all of them is a total 55/158 frequency, so reducing overall
+// scroll frequency by 35% = from 42 to ~27.
+// After removing scroll of remove curse (15):
+//
+// 42*(1-(70/158)) = 23.39 ~= 23
+//
+// Potions had a total frequency of 189, with hallucination 10/189 = 5%.
+// So, after removing hallucinationg, reduce overall potion
+// probability from 52 to (52*(1-10/189)) ~= 49.
+//
+// Before removing curses:
+// 16% of rings were cursed.
+// 50% of enchanted weapons/armor were cursed. Since enchanted weapons/armor were 40% of weapons/armor in general,
+// this means that 40%*20% = 8% of all weapons/armor were cursed.
+// After removing curses:
+// we must reduce the frequency of rings by 16%, and weapons and armor by 8%.
+// rings:   16%*3 = 0.48 ~= 1 => reduce from 3 to 2
+// weapons: 8%*10 = 0.89 ~= 1 => reduce from 10 to 9
+// armor:   8%*8  = 0.64 ~= 1 => reduce from 8 to 7
+
 // Relative generation probabilities of item categories
 //                                                   (GOLD,  SCROLL, POTION, STAFF,  WAND,   WEAPON, ARMOR,  FOOD,   RING,   CHARM,    AMULET,   GEM,    KEY)
-const short itemGenerationProbabilities_Brogue[13] = {50,    42,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+const short itemGenerationProbabilities_Brogue[13] = {50,    42,     52,     3,      3,      9,      7,      2,      2,      2,        0,        0,      0};
 
 const autoGenerator autoGeneratorCatalog_Brogue[] = {
 //   terrain                    layer   DF                          Machine                     reqDungeon  reqLiquid   >Depth  <Depth          freq    minIncp minSlope    maxNumber
