@@ -1,3 +1,91 @@
+1.13
+====
+
+Thanks to great work by flend and zenzombie, we now have support for multiple
+game variants in CE, and have added Rapid Brogue! Select it in *Play > Change
+Variant* in the main menu.
+
+Thanks to other contributors andkem, brturn, nathanf, nstoddard, and omar-polo.
+
+-
+  Rapid Brogue is now part of Brogue CE!
+-
+  Re-designed the main menu.
+-
+  Lumenstones are worth 500 gold on death, instead of 0.
+-
+  The rapier lunge attack works against invisible enemies when you are
+  telepathic.
+-
+  Levers are now indestructible via shattering and tunneling, which would leave
+  some vaults impossible to open.
+-
+  Autoexplore no longer walks through dangerous gases when wearing unidentified
+  respiration armor.
+-
+  Items falling from the previous level will now trigger any traps they land on.
+-
+  Items and monsters falling from the previous level will no longer fall into
+  reward rooms.
+-
+  Fixed an issue where unidentified rings could have higher bonuses than they
+  would have once identified.
+-
+  Fixed an issue where unidentified positive rings would be 1 enchant lower than
+  they should.
+-
+  Update rapier description to use 'triple damage' instead of 'treble damage'.
+-
+  Added a `-vn` command-line option to play a replay headlessly.
+-
+  Fix the default enchantment value being ignored in wizard mode.
+-
+  Fixed the dungeon version number in the seed catalog.
+
+
+1.12
+====
+
+A small non-gameplay update. Enjoy!
+
+Thanks to contributors flend, glob, nstoddard, and zenzombie.
+
+-
+  Added a wizard mode menu action for creating an item or monster.
+-
+  Monster death messages are now printed in the correct order. For instance,
+  "The dart killed the bloat" is now printed before the message about the bloat
+  bursting.
+-
+  Fixed an issue with beckoning bolt paths. This could cause mirrored totems to
+  instakill the player and made it difficult to target enemies behind obstacles.
+-
+  Autoexplore now avoids items on candle-lit altars outside of vaults.
+-
+  Changed the graphic and description of statues that can be broken with
+  shattering, to clearly distinguish them from regular statues.
+-
+  "Quit without saving" is now "Quit and abandon game"; "Suspend game and quit"
+  is now "Save and exit".
+-
+  You are now prompted when stepping onto a chasm tile with Mangrove Dryad vines
+  on it, since you fall through them.
+-
+  Removed the commands for opening saved games and recordings from within a
+  game, as they could be used for save scumming. (Both can still be done from
+  the main menu.)
+-
+  The `--print-seed-catalog` option no longer creates unnecessary .broguesave
+  files.
+
+
+1.11.1
+======
+
+- Fixed replay out-of-sync error from throwing an item.
+- Fixed wand of plenty description still referring to halving HP.
+
+
 1.11
 ====
 

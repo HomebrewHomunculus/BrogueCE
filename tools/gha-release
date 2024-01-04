@@ -2,16 +2,16 @@
 set -exo pipefail
 
 unzip windows-x86_64.zip
-unzip BrogueCE-windows-x86_64.zip
-cd BrogueCE-windows
+unzip BrogueLite-windows-x86_64.zip
+cd BrogueLite-windows
 wine brogue.exe
 cd ..
 
 unzip linux-x86_64.zip
-tar -xaf BrogueCE-linux-x86_64.tar.gz
-cd BrogueCE-linux
+tar -xaf BrogueLite-linux-x86_64.tar.gz
+cd BrogueLite-linux
 ./brogue
 cd ..
 
 unzip macos-x86_64.zip
-unzip -l BrogueCE-macos-x86_64.zip
+unzip -l BrogueLite-macos-x86_64.zip
